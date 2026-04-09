@@ -1,6 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const RepoCard = ({ repo }) => {
+    const [bookmarks, setBookmarks] = useState(() => {
+        return JSON.parse(localStorage.getItem('bookmarks')) || []
+    })
+
+    const isBookmarked = bookmarks.some(b => b.id === repo.id)
+
+    const toggleBookmark = () => {
+        let updated
+        if (isBookmarked) {
+            updated = bookmarks.filter(b => b.id !== repo.id)
+        } else {
+            updated = [...bookmarks, repo]
+        }
+        setBookmarks(updated)
+        localStorage.setItem('bookmarks', JSON.stringify(updated))
+    }
   return (
     <div className="card mb-3 shadow-sm">
       <div className="card-body">
@@ -8,8 +24,8 @@ const RepoCard = ({ repo }) => {
           <a href={repo.html_url} target="_blank" rel="noreferrer" className="fw-bold text-dark fs-6">
             <i className="fa-solid fa-book me-2 text-secondary"></i>{repo.name}
           </a>
-          <button className="btn btn-sm btn-outline-secondary">
-            <i className="fa-regular fa-bookmark"></i>
+          <button className={`btn btn-sm ${isBookmarked ? 'btn-dark' : 'btn-outline-secondary'}`} onClick={toggleBookmark}>
+            <i className={`${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark`}></i>
           </button>
         </div>
 
