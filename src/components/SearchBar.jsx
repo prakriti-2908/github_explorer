@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const SearchBar = () => {
+const SearchBar = ({onSearch}) => {
+    const [search,setSearch] = useState('');
+
+    const handleChange = (e) => {
+        setSearch(e.target.value);
+        onSearch(e.target.value);
+    }
+
+    const handleClear = () => {
+        setSearch('');
+        onSearch('');
+    }
   return (
     <>
         <div className="container mt-4">
@@ -11,7 +22,14 @@ const SearchBar = () => {
                             <i className="fa-solid fa-magnifying-glass"></i>
                         </span>
                         
-                        <input type="text" className="form-control shadow-none border-start-0 border-secondary" placeholder='Search by username...' />
+                        <input type="text" className="form-control shadow-none border-start-0 border-secondary" placeholder='Search by username...' onChange={handleChange} value={search}/>
+                        {
+                            search && (
+                                <button className="btn btn-outline-secondary border-start-0" type='button' onClick={handleClear}>
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                            )
+                        }
                     </div>
                 </div>
             </div>
