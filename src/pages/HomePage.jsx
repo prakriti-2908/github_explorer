@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import SearchBar from '../components/SearchBar';
 import useGithubFetch from '../hooks/useGithubFetch';
+import UserCard from '../components/UserCard';
 
 const HomePage = () => {
     const[search,setSearch] = useState('');
@@ -33,7 +34,7 @@ const HomePage = () => {
                 <div className="row mt-4">
                 {users.map(user => (
                     <div key={user.id} className="col-6 col-md-3 mb-4">
-                        {user.login}
+                        <UserCard user={user}/>
                     </div>
                 ))}
                 </div>
